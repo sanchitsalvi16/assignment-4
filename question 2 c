@@ -1,0 +1,72 @@
+install.packages(c("tidygraph", "intergraph", "ggnetwork", "netrankr", "ggrepel"))
+install.packages("UserNetR")
+install.packages("dplyr")
+install.packages("tidyverse")
+installed.packages("dplyr")
+install.packages("intergraph")
+install.packages("ggnetwork")
+install.packages("ggrepel")
+require(tidyverse)
+require(tidygraph)
+require(intergraph)
+
+require(ggnetwork)
+require(netrankr)
+require(ggrepel)
+library(dplyr)
+require(UserNetR)
+
+
+from <- c("Asif", "Deng", "Gita", "Paul", "Sure", "Sure")
+to <- c("Gita", "Gita", "Anne", "Anne", "Paul", "Asif")
+edge1 <- tibble(from, to)
+str(edge1)
+
+class(edge1)
+edge1
+
+talk <- tbl_graph(edges = edge1, directed = FALSE)
+talk
+class(talk)
+
+
+
+talk %>% activate(edges) %>% as_tibble()
+talk %>% activate(nodes) %>% as_tibble()
+
+
+talk_n <- asNetwork(talk)
+talk_g <- ggnetwork(talk_n)
+
+
+talk_gg <- ggplot(talk_g, aes(x = x, y = y, xend = xend, yend = yend))+
+  geom_edges(color = "tomato") +
+  geom_nodes(alpha = 0.6, size = 5) +
+  geom_nodetext(aes(label=vertex.names), col="cyan") +
+  theme_blank()
+
+
+
+install.packages("devtools")
+
+install.packages("usethis")
+devtools::install_github("DougLuke/UserNetR")
+require(UserNetR)
+library(devtools)
+install.packages("devtools")
+devtools::install_github("DougLuke/UserNetR")
+
+devtools::install_github("r-lib/remotes")
+ggnetplot <- function(Net = Bali)
+{
+  Net <- ggnetwork(Net, layout = "kamadakawai")
+  ggplot(Net, aes(x, y, xend = xend, yend = yend)) +
+    geom_edges(col = "red") +
+    geom_nodes(aes(colour = role), size = 4)+
+    geom_nodetext_repel(aes(label = role), col = "black", size = 3) 
+    
+    
+}
+ggnetplot(Bali)  
+
+
